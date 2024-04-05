@@ -1,0 +1,48 @@
+{
+    "name": "dzunke/panaly",
+    "description": "Project Analyzer Tool - Get different sources of quality tools together into a single source of results",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Panaly\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Panaly\\Test\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denis Zunke",
+            "email": "denis.zunke@gmail.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "bin": [
+        "bin/panaly"
+    ],
+    "require": {
+        "php": "^8.3",
+        "psr/log": "^3.0",
+        "symfony/console": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "symfony/yaml": "^7.0"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^12.0",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "phpunit/phpunit": "^11.0",
+        "symfony/var-dumper": "^7.0"
+    }
+}

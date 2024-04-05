@@ -1,0 +1,15 @@
+plugins:
+  - Panaly\Test\Fixtures\Plugin\TestPlugin
+
+groups:
+  home:
+    title: "My Metrics"
+    metrics:
+      a_static_integer: ~
+
+storage:
+  single_json:
+    file: metric_storage.json
+
+reporting:
+  symfony_dump: ~

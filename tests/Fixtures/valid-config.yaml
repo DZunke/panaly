@@ -1,0 +1,15 @@
+plugins:
+  - Panaly\Test\Fixtures\Plugin\TestPlugin
+
+groups:
+  foo:
+    title: Foo Bar Baz
+    metrics:
+      a_static_integer: ~
+
+storage:
+  json:
+    path: var/metric_storage
+
+reporting:
+  html_report: ~

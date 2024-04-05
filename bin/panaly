@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Panaly\Configuration;
+use Panaly\Event\ConfigurationLoaded;
+use Panaly\Event\RuntimeLoaded;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Panaly\Collector\Collector;
+use Panaly\Reporting\Handler as ReportingHandler;
+use Panaly\Storage\Handler as StorageHandler;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+(new SingleCommandApplication())
+    ->setName('Panaly - Project Analyzer')
+    ->setVersion('0.1')
+    ->addOption(
+        'config',
+        'c',
+        InputOption::VALUE_REQUIRED,
+        'Path to an existing config file',
+        dirname('.') . DIRECTORY_SEPARATOR . 'panaly.dist.yaml',
+    )
+    ->setCode(static function (InputInterface $input, OutputInterface $output): int {
+        $io = new SymfonyStyle($input, $output);
+        $io->title('Project Analyzer');
+
+        $runtimeConfiguration = new Configuration\RuntimeConfiguration();
+        $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile($input->getOption('config'));
+
+        $runtimeConfiguration->getEventDispatcher()->dispatch($event = new ConfigurationLoaded($configurationFile));
+        (new Configuration\PluginLoader())->load($event->getConfigurationFile(), $runtimeConfiguration);
+        // TODO: Add a validation thingy here ... so the full configuration is validated against the runtime
+        $runtimeConfiguration->getEventDispatcher()->dispatch(new RuntimeLoaded($runtimeConfiguration));
+
+        $collectionResult = (new Collector($configurationFile, $runtimeConfiguration))->collect();
+
+        (new StorageHandler($configurationFile, $runtimeConfiguration))->handle($collectionResult);
+        (new ReportingHandler($configurationFile, $runtimeConfiguration))->handle($collectionResult);
+
+        $io->success('Panaly has finished collecting your metrics ...');
+
+        return Command::SUCCESS;
+    })->run();

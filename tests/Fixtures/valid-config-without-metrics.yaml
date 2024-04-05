@@ -1,0 +1,2 @@
+plugins:
+  - Panaly\Test\Fixtures\Plugin\TestPlugin
