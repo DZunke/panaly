@@ -1,7 +1,7 @@
 {
     "name": "dzunke/panaly",
     "description": "Project Analyzer Tool - Get different sources of quality tools together into a single source of results",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
