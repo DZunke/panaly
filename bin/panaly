@@ -3,18 +3,19 @@
 
 declare(strict_types=1);
 
+use Panaly\Collector\Collector;
 use Panaly\Configuration;
 use Panaly\Event\ConfigurationLoaded;
+use Panaly\Event\MetricResultCreated;
 use Panaly\Event\RuntimeLoaded;
+use Panaly\Reporting\Handler as ReportingHandler;
+use Panaly\Storage\Handler as StorageHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Panaly\Collector\Collector;
-use Panaly\Reporting\Handler as ReportingHandler;
-use Panaly\Storage\Handler as StorageHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -35,12 +36,26 @@ require __DIR__ . '/../vendor/autoload.php';
         $runtimeConfiguration = new Configuration\RuntimeConfiguration();
         $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile($input->getOption('config'));
 
+        // The configuration file is parsed, so allow to change the configuration when there is any need for it, before the plugins are loaded
         $runtimeConfiguration->getEventDispatcher()->dispatch($event = new ConfigurationLoaded($configurationFile));
+
+        // Load the plugins to get knowledge about all registered components for the runtime cofiguratioon
         (new Configuration\PluginLoader())->load($event->getConfigurationFile(), $runtimeConfiguration);
-        // TODO: Add a validation thingy here ... so the full configuration is validated against the runtime
+
+        // Give the possibility to change the runtime configuration before the metric collection starts
         $runtimeConfiguration->getEventDispatcher()->dispatch(new RuntimeLoaded($runtimeConfiguration));
 
+        // TODO: Add a validation thingy here ... so the full configuration file is validated against the now existing runtime
+
+        // Execute the metric collection to get a result of all configured collection results
         $collectionResult = (new Collector($configurationFile, $runtimeConfiguration))->collect();
+
+        // Give the possibility to change the result before the storage and reporting engine are running
+        $runtimeConfiguration->getEventDispatcher()->dispatch(new MetricResultCreated(
+            $configurationFile,
+            $runtimeConfiguration,
+            $collectionResult
+        ));
 
         (new StorageHandler($configurationFile, $runtimeConfiguration))->handle($collectionResult);
         (new ReportingHandler($configurationFile, $runtimeConfiguration))->handle($collectionResult);

@@ -2,19 +2,19 @@
 
 This project targets to deliver an extendable tool to analyze a projects sourcecode for some metrics. Have a code
 coverage report? Some baselines for static analyzer that you want to keep in mind? Just file system metrics? Get
-them all together based on your custom configuration and get a reporting of your mind for it. 
+them all together based on your custom configuration and get a reporting of your mind for it.
 
 The plugin system ensures that it is possible to customize every step from the configuration to the collection of
 the metrics and over to storage and reporting. Later on even more access with active event listening will be enabled
-so that every plugin can form the way a projects analyzer tools bring their numbers together. 
+so that every plugin can form the way a projects analyzer tools bring their numbers together.
 
-## Setup 
+## Setup
 
 > :warning: Open TODO - Work in Progress Project
 
 ## Usage
 
-In default the CLI Command will search for a config file `panaly.dist.yaml` which can be overwritten by giving the 
+In default the CLI Command will search for a config file `panaly.dist.yaml` which can be overwritten by giving the
 config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
 
 ## Example Configuration
@@ -69,10 +69,11 @@ The event section is work in progress as there is currently no real way to regis
 become available later so that plugins are also enabled to hook into the events instead of delivering metrics,
 reporting or storages to the process.
 
-| Event               | Description                                                                                                                                                                                    |
-|---------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ConfigurationLoaded | The event is dispatched directly after the `ConfigurationFile` was loaded. It allows to overwrite the full configuration by delivering a new instance that will then be taken for the process. |
-| RuntimeLoaded       | After the configuration was fully loaded and converted to the `RuntimeConfiguration` this event is triggered, it is the last possibility to change the metric running process.                 |
+| Event                                                      | Description                                                                                                                                                                                                                                                                                              |
+|------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Panaly\Configuration\ConfigurationFile\ConfigurationLoaded | The event is dispatched directly after the `ConfigurationFile` was loaded. It allows to overwrite the full configuration by delivering a new instance that will then be taken for the process.                                                                                                           |
+| Panaly\Configuration\ConfigurationFile\RuntimeLoaded       | After the configuration was fully loaded and converted to the `RuntimeConfiguration` this event is triggered, it is the last possibility to change the metric running process.                                                                                                                           |
+| Panaly\Configuration\ConfigurationFile\MetricResultCreated | When the collection, or execution, of configured metric groups is finished the event is triggered with all information and the result can be modified before the storage and reporting runs. The full environment is given her with the `ConfigurationFile`, the `RuntimeConfiguration` and the `Result` |
 
 ## Thanks and License
 
