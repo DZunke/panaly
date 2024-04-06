@@ -33,9 +33,13 @@ class CollectorTest extends TestCase
         self::assertSame('Foo Bar Baz', $groups[0]->getTitle());
 
         $metrics = $groups[0]->getMetrics();
-        self::assertCount(1, $metrics);
+        self::assertCount(2, $metrics);
+
         self::assertSame('I am a default title', $metrics[0]->title);
         self::assertSame(12, $metrics[0]->value->compute());
+
+        self::assertSame('I am a default title', $metrics[1]->title);
+        self::assertSame(12, $metrics[1]->value->compute());
     }
 
     private function getResultFromConfigFile(string $file): Result

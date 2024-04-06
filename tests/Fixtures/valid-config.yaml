@@ -6,6 +6,8 @@ groups:
     title: Foo Bar Baz
     metrics:
       a_static_integer: ~
+      a_second_static_integer:
+        metric: a_static_integer
 
 storage:
   json:

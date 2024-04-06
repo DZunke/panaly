@@ -10,6 +10,7 @@ use Panaly\Configuration\ConfigurationFile\Plugin;
 use Panaly\Configuration\ConfigurationFile\Reporting;
 use Panaly\Configuration\ConfigurationFile\Storage;
 
+use function array_key_exists;
 use function array_map;
 
 readonly class ConfigurationFile
@@ -113,6 +114,12 @@ readonly class ConfigurationFile
 
             $options ??= [];
             unset($options['title']);
+
+            if (array_key_exists('metric', $options)) {
+                // Take the metric not from the key but from the option
+                $identifier = $options['metric'];
+                unset($options['metric']);
+            }
 
             $metrics[] = new Metric($identifier, $title, $options);
         }

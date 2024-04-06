@@ -54,6 +54,7 @@ class ConfigurationFileTest extends TestCase
                         'metrics' => [
                             'baz' => ['title' => 'foo_baz', 'foo' => 'bar'],
                             'quo' => ['foo' => 'baz'],
+                            'also_a_baz_metric' => ['metric' => 'baz'],
                         ],
                     ],
                 ],
@@ -64,7 +65,7 @@ class ConfigurationFileTest extends TestCase
         self::assertSame('foo', $configurationFile->metricGroups[0]->identifier);
         self::assertSame('bar', $configurationFile->metricGroups[0]->title);
 
-        self::assertCount(2, $configurationFile->metricGroups[0]->metrics);
+        self::assertCount(3, $configurationFile->metricGroups[0]->metrics);
 
         self::assertSame('baz', $configurationFile->metricGroups[0]->metrics[0]->identifier);
         self::assertSame('foo_baz', $configurationFile->metricGroups[0]->metrics[0]->title);
@@ -72,6 +73,8 @@ class ConfigurationFileTest extends TestCase
         self::assertSame('quo', $configurationFile->metricGroups[0]->metrics[1]->identifier);
         self::assertNull($configurationFile->metricGroups[0]->metrics[1]->title);
         self::assertSame(['foo' => 'baz'], $configurationFile->metricGroups[0]->metrics[1]->options);
+
+        self::assertSame('baz', $configurationFile->metricGroups[0]->metrics[2]->identifier);
     }
 
     public function testThatCreatingWithStorageIsValid(): void

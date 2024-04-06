@@ -42,6 +42,12 @@ groups:
                 paths:
                     - src
                     - tests
+            i_am_a_free_name_that_will_be_lost:
+                metric: fielsystem_file_count # This overwrites the key and is the metric to be utilized
+                title: "Just test files"
+                paths:
+                    - src
+                    - tests
     group3:
         title: Static Analysis Metrics"
         metrics:
