@@ -39,6 +39,8 @@
     },
     "require-dev": {
         "doctrine/coding-standard": "^12.0",
+        "dzunke/panaly-files": "dev-main",
+        "dzunke/panaly-symfony-dump": "dev-main",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-deprecation-rules": "^1.1",
         "phpstan/phpstan-strict-rules": "^1.5",

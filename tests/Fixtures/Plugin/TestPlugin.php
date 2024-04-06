@@ -12,8 +12,8 @@ use Panaly\Plugin\Plugin\Storage;
 use Panaly\Result\Metric\Integer;
 use Panaly\Result\Metric\Value;
 use Panaly\Result\Result;
+use Symfony\Component\VarDumper\VarDumper;
 
-use function dump;
 use function file_put_contents;
 use function json_encode;
 
@@ -86,7 +86,7 @@ class TestPlugin implements Plugin
 
                 public function report(Result $result, array $options): void
                 {
-                    dump($result);
+                    VarDumper::dump($result);
                 }
             },
         ];
