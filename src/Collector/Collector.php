@@ -10,6 +10,8 @@ use Panaly\Result\Group;
 use Panaly\Result\Metric;
 use Panaly\Result\Result;
 
+use function assert;
+
 readonly class Collector
 {
     public function __construct(
@@ -22,7 +24,10 @@ readonly class Collector
     {
         $result = new Result();
         foreach ($this->configurationFile->metricGroups as $executingGroup) {
-            $group = new Group($executingGroup->title);
+            $title = $executingGroup->title;
+            assert($title !== ''); // Ensured by validation of the object
+
+            $group = new Group($title);
 
             foreach ($executingGroup->metrics as $executingMetric) {
                 $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->identifier);

@@ -6,7 +6,10 @@ namespace Panaly\Result;
 
 class Group
 {
-    /** @param list<Metric> $metrics */
+    /**
+     * @param non-empty-string $title
+     * @param list<Metric>     $metrics
+     */
     public function __construct(
         private readonly string $title,
         private array $metrics = [],
@@ -29,7 +32,7 @@ class Group
         $this->metrics[] = $metric;
     }
 
-    /** @return array{title: string, metrics: list<array{title: string, value: mixed}>} */
+    /** @return array{title: non-empty-string, metrics: list<array{title: string, value: mixed}>} */
     public function toArray(): array
     {
         $metricsAsArray = [];

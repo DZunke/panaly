@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 namespace Panaly\Result;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+
 class Result
 {
+    private readonly DateTimeImmutable $createAt;
     /** @var list<Group> */
     private array $groups = [];
+
+    public function __construct()
+    {
+        $this->createAt = new DateTimeImmutable();
+    }
+
+    public function getCreateAt(): DateTimeImmutable
+    {
+        return $this->createAt;
+    }
 
     /** @return list<Group> */
     public function getGroups(): array
@@ -20,12 +34,24 @@ class Result
         $this->groups[] = $group;
     }
 
-    /** @return list<array{title: string, metrics: list<array{title: string, value: mixed}>}> */
+    /**
+     * @return array{
+     *     createdAt: non-falsy-string,
+     *     groups: list<array{
+     *           title: string,
+     *           metrics: list<array{title: string, value: mixed}>
+     *     }>
+     * }
+     */
     public function toArray(): array
     {
-        $asArray = [];
+        $asArray = [
+            'createdAt' => $this->createAt->format(DateTimeInterface::ATOM),
+            'groups' => [],
+        ];
+
         foreach ($this->groups as $group) {
-            $asArray[] = $group->toArray();
+            $asArray['groups'][] = $group->toArray();
         }
 
         return $asArray;
