@@ -23,6 +23,8 @@ class PluginLoader
                 throw PluginLoadingFailed::instantiationFailed($plugin->class, $e);
             }
 
+            $loadedPlugin->initialize($configurationFile, $runtimeConfiguration);
+
             $loadedPluginMetrics = $loadedPlugin->getAvailableMetrics();
             array_walk(
                 $loadedPluginMetrics,

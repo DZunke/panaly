@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Panaly\Test\Fixtures\Plugin;
 
 use InvalidArgumentException;
-use Panaly\Plugin\Plugin;
+use Panaly\Plugin\BasePlugin;
 use Panaly\Plugin\Plugin\Metric;
 use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
@@ -20,7 +20,7 @@ use function json_encode;
 use const JSON_PRETTY_PRINT;
 use const JSON_THROW_ON_ERROR;
 
-class TestPlugin implements Plugin
+class TestPlugin extends BasePlugin
 {
     /** @return list<Metric> */
     public function getAvailableMetrics(): array

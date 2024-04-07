@@ -39,7 +39,7 @@ require __DIR__ . '/../vendor/autoload.php';
         // The configuration file is parsed, so allow to change the configuration when there is any need for it, before the plugins are loaded
         $runtimeConfiguration->getEventDispatcher()->dispatch($event = new ConfigurationLoaded($configurationFile));
 
-        // Load the plugins to get knowledge about all registered components for the runtime cofiguratioon
+        // Load the plugins to get knowledge about all registered components for the runtime configuration
         (new Configuration\PluginLoader())->load($event->getConfigurationFile(), $runtimeConfiguration);
 
         // Give the possibility to change the runtime configuration before the metric collection starts

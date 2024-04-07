@@ -65,7 +65,29 @@ storage:
 reporting:
     my_own_html_reporting: ~
 ```
+
 </details>
+
+## Plugins
+
+As Panaly is building on a wide plugin system and is not delivering metric collecting, storaging and reporting features
+by itself everything needs to be done by a plugin. Each plugin can be specialized to a single task or deliver a full
+feature set from the metric collection over storage handling to reporting generation.
+
+In a result the plugins are the most basic thing to configure for a Panaly run. Every plugin has a base class that is
+configuring how the plugin want to be utilized by Panaly and which features it delivers.
+
+A Plugin can extend the class `Panaly\Plugin\BasePlugin` to not have to implement all methods for itself as the methods
+are independently called from each other and nothing will happen when they are empty.
+
+The following methods are available.
+
+| Method                  | Description                                                                                                                                                                                   |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `initialize`            | Mainly usage idea currently is to register event listeners to the events that are triggered during the runtime of a Panaly run.                                                               |
+| `getAvailableMetrics`   | Return a list of `Panaly\Plugin\Plugin\Metric` implementing classes to be used as metric collectors.                                                                                          |
+| `getAvailableStorages`  | Return a list of `Panaly\Plugin\Plugin\Storage` implementing classes that will take the metric collection result and handle storage tasks.                                                    |
+| `getAvailableReporting` | Return a list of `Panaly\Plugin\Plugin\Reporting` implementing classes that will take the metric collection result and generate some kind of reporting that can then be utilized by the user. |
 
 ## Events
 
