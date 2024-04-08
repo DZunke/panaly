@@ -6,13 +6,13 @@ namespace Panaly\Configuration\ConfigurationFile;
 
 use Panaly\Configuration\Exception\InvalidConfigurationFile;
 
-readonly class Metric
+class Metric
 {
     public function __construct(
-        public string $identifier,
-        public string $metric,
-        public string|null $title,
-        public array $options,
+        public readonly string $identifier,
+        public readonly string $metric,
+        public readonly string|null $title,
+        public readonly array $options,
     ) {
         if ($this->identifier === '') {
             throw InvalidConfigurationFile::metricMustNotHaveABlankIdentifier();

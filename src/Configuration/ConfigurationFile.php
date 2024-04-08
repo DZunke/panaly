@@ -15,7 +15,7 @@ use function array_keys;
 use function array_map;
 use function array_values;
 
-readonly class ConfigurationFile
+class ConfigurationFile
 {
     /**
      * @param list<Plugin>      $plugins
@@ -24,10 +24,10 @@ readonly class ConfigurationFile
      * @param list<Reporting>   $reporting
      */
     public function __construct(
-        public array $plugins,
-        public array $metricGroups,
-        public array $storage,
-        public array $reporting,
+        public readonly array $plugins,
+        public readonly array $metricGroups,
+        public readonly array $storage,
+        public readonly array $reporting,
     ) {
     }
 

@@ -8,12 +8,12 @@ use Panaly\Configuration\ConfigurationFile;
 use Panaly\Configuration\RuntimeConfiguration;
 use Panaly\Result\Result;
 
-final readonly class MetricResultCreated
+final class MetricResultCreated
 {
     public function __construct(
-        public ConfigurationFile $configurationFile,
-        public RuntimeConfiguration $runtimeConfiguration,
-        public Result $result,
+        public readonly ConfigurationFile $configurationFile,
+        public readonly RuntimeConfiguration $runtimeConfiguration,
+        public readonly Result $result,
     ) {
     }
 }

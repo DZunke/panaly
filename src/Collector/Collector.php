@@ -13,11 +13,11 @@ use Panaly\Result\Result;
 
 use function assert;
 
-readonly class Collector
+class Collector
 {
     public function __construct(
-        private ConfigurationFile $configurationFile,
-        private RuntimeConfiguration $runtimeConfiguration,
+        private readonly ConfigurationFile $configurationFile,
+        private readonly RuntimeConfiguration $runtimeConfiguration,
     ) {
     }
 

@@ -8,11 +8,11 @@ use Panaly\Configuration\ConfigurationFile;
 use Panaly\Configuration\RuntimeConfiguration;
 use Panaly\Result\Result;
 
-readonly class Handler
+class Handler
 {
     public function __construct(
-        private ConfigurationFile $configurationFile,
-        private RuntimeConfiguration $runtimeConfiguration,
+        private readonly ConfigurationFile $configurationFile,
+        private readonly RuntimeConfiguration $runtimeConfiguration,
     ) {
     }
 

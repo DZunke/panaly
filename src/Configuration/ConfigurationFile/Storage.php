@@ -6,11 +6,11 @@ namespace Panaly\Configuration\ConfigurationFile;
 
 use Panaly\Configuration\Exception\InvalidConfigurationFile;
 
-readonly class Storage
+class Storage
 {
     public function __construct(
-        public string $identifier,
-        public array $options,
+        public readonly string $identifier,
+        public readonly array $options,
     ) {
         if ($this->identifier === '') {
             throw InvalidConfigurationFile::storageMustNotHaveABlankName();

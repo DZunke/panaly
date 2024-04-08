@@ -6,11 +6,11 @@ namespace Panaly\Result;
 
 use Panaly\Result\Metric\Value;
 
-readonly class Metric
+class Metric
 {
     public function __construct(
-        public string $title,
-        public Value $value,
+        public readonly string $title,
+        public readonly Value $value,
     ) {
     }
 }

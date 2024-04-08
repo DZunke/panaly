@@ -6,10 +6,10 @@ namespace Panaly\Event;
 
 use Panaly\Configuration\RuntimeConfiguration;
 
-final readonly class RuntimeLoaded
+final class RuntimeLoaded
 {
     public function __construct(
-        public RuntimeConfiguration $runtimeConfiguration,
+        public readonly RuntimeConfiguration $runtimeConfiguration,
     ) {
     }
 }
