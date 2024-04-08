@@ -6,32 +6,30 @@ namespace Panaly\Plugin;
 
 use Panaly\Configuration\ConfigurationFile;
 use Panaly\Configuration\RuntimeConfiguration;
-use Panaly\Plugin\Plugin\Metric;
-use Panaly\Plugin\Plugin\Reporting;
-use Panaly\Plugin\Plugin\Storage;
 
 abstract class BasePlugin implements Plugin
 {
-    public function initialize(ConfigurationFile $configurationFile, RuntimeConfiguration $runtimeConfiguration): void
-    {
-        // Do nothing by design ... it just has to be overwritten when there is something to do
-        // Idea: Maybe allow also a plugin configuration that could be given here in the future?
+    public function initialize(
+        ConfigurationFile $configurationFile,
+        RuntimeConfiguration $runtimeConfiguration,
+        array $options,
+    ): void {
     }
 
-    /** @return list<Metric> */
-    public function getAvailableMetrics(): array
-    {
-        return [];
-    }
-
-    /** @return list<Storage> */
-    public function getAvailableStorages(): array
+    /** @inheritDoc */
+    public function getAvailableMetrics(array $options): array
     {
         return [];
     }
 
-    /** @return list<Reporting> */
-    public function getAvailableReporting(): array
+    /** @inheritDoc */
+    public function getAvailableStorages(array $options): array
+    {
+        return [];
+    }
+
+    /** @inheritDoc */
+    public function getAvailableReporting(array $options): array
     {
         return [];
     }

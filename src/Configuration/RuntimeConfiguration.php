@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Panaly\Configuration;
 
 use Panaly\Configuration\Exception\InvalidRuntimeConfiguration;
+use Panaly\Plugin\Plugin;
 use Panaly\Plugin\Plugin\Metric;
 use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
@@ -17,6 +18,8 @@ class RuntimeConfiguration
 {
     private EventDispatcherInterface $eventDispatcher;
 
+    /** @var list<Plugin> */
+    private array $loadedPlugins = [];
     /** @var array<string, Metric> */
     private array $metrics = [];
     /** @var array<string, Storage> */
@@ -32,6 +35,17 @@ class RuntimeConfiguration
     public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;
+    }
+
+    public function addPlugin(Plugin $plugin): void
+    {
+        $this->loadedPlugins[] = $plugin;
+    }
+
+    /** @return list<Plugin> */
+    public function getPlugins(): array
+    {
+        return $this->loadedPlugins;
     }
 
     public function getMetric(string $identifier): Metric

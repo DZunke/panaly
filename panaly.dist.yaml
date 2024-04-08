@@ -1,6 +1,6 @@
 plugins:
-  - DZunke\PanalyFiles\FilesPlugin
-  - DZunke\PanalySymfonyDump\SymfonyDumpPlugin
+  DZunke\PanalyFiles\FilesPlugin: ~
+  DZunke\PanalySymfonyDump\SymfonyDumpPlugin: ~
 
 groups:
   filesystem:

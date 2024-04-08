@@ -44,10 +44,10 @@ class ConfigurationFileLoaderTest extends TestCase
         self::assertSame('Foo Bar Baz', $configuration->metricGroups[0]->title);
 
         self::assertCount(2, $configuration->metricGroups[0]->metrics);
-        self::assertSame('a_static_integer', $configuration->metricGroups[0]->metrics[0]->identifier);
+        self::assertSame('a_static_integer', $configuration->metricGroups[0]->metrics[0]->metric);
         self::assertSame([], $configuration->metricGroups[0]->metrics[0]->options);
 
-        self::assertSame('a_static_integer', $configuration->metricGroups[0]->metrics[1]->identifier);
+        self::assertSame('a_static_integer', $configuration->metricGroups[0]->metrics[1]->metric);
         self::assertSame([], $configuration->metricGroups[0]->metrics[1]->options);
 
         self::assertCount(1, $configuration->storage);

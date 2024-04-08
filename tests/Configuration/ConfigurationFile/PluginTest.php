@@ -20,6 +20,16 @@ class PluginTest extends TestCase
         self::assertSame($pluginClass::class, $plugin->class);
     }
 
+    public function testThatAPluginCanBeCreatedWithOptions(): void
+    {
+        $pluginClass = self::createStub(PluginInterface::class);
+
+        $plugin = new Plugin($pluginClass::class, ['foo' => 'bar']);
+
+        self::assertSame($pluginClass::class, $plugin->class);
+        self::assertSame(['foo' => 'bar'], $plugin->options);
+    }
+
     public function testThatAnExistingClassMustImplementThePluginInterface(): void
     {
         $this->expectException(InvalidConfigurationFile::class);

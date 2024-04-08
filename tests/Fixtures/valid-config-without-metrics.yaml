@@ -1,2 +1,2 @@
 plugins:
-  - Panaly\Test\Fixtures\Plugin\TestPlugin
+  Panaly\Test\Fixtures\Plugin\TestPlugin: ~

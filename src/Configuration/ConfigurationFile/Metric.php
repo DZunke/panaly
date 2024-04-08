@@ -10,11 +10,16 @@ readonly class Metric
 {
     public function __construct(
         public string $identifier,
+        public string $metric,
         public string|null $title,
         public array $options,
     ) {
         if ($this->identifier === '') {
-            throw InvalidConfigurationFile::metricMustNotHaveABlankName();
+            throw InvalidConfigurationFile::metricMustNotHaveABlankIdentifier();
+        }
+
+        if ($this->metric === '') {
+            throw InvalidConfigurationFile::metricMustNotHaveABlankMetric();
         }
     }
 }

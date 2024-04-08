@@ -24,10 +24,10 @@ config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
 
   ```yaml
 plugins: # Registered plugins that deliver single metrics that could be utilized for metric groups
-    - Namespace/Of/The/Project/FilesystemPlugin # registers a "filesystem_directory_count" and a "fielsystem_file_count" metric
-    - Namespace/Of/Another/Project/PHPStanBaselinePlugin # registers a simple "phpstan_baseline_total_count" metric
-    - I/Have/A/Storage/Engine/LocalJsonStoragePlugin # registers a "local_json" storage and also a "metric_history_timeframe" metric that shows from / to string of alltime metric reading
-    - My/Own/Plugin/HtmlReportPlugin # registers the "my_own_html_reporting" reporting that takes the result collection of the metrics and does something with it
+    Namespace/Of/The/Project/FilesystemPlugin: ~ # registers a "filesystem_directory_count" and a "fielsystem_file_count" metric
+    Namespace/Of/Another/Project/PHPStanBaselinePlugin: ~ # registers a simple "phpstan_baseline_total_count" metric
+    I/Have/A/Storage/Engine/LocalJsonStoragePlugin: ~ # registers a "local_json" storage and also a "metric_history_timeframe" metric that shows from / to string of alltime metric reading
+    My/Own/Plugin/HtmlReportPlugin: ~ # registers the "my_own_html_reporting" reporting that takes the result collection of the metrics and does something with it
 
 groups:
     group1:
@@ -45,7 +45,7 @@ groups:
                 paths:
                     - src
                     - tests
-            i_am_a_free_name_that_will_be_lost:
+            i_am_a_custom_identifier:
                 metric: fielsystem_file_count # This overwrites the key and is the metric to be utilized
                 title: "Just test files"
                 paths:

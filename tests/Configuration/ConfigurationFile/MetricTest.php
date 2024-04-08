@@ -12,9 +12,10 @@ class MetricTest extends TestCase
 {
     public function testThatTheObjectCanBeBuild(): void
     {
-        $metric = new Metric('foo', 'bar', []);
+        $metric = new Metric('baz', 'foo', 'bar', []);
 
-        self::assertSame('foo', $metric->identifier);
+        self::assertSame('baz', $metric->identifier);
+        self::assertSame('foo', $metric->metric);
         self::assertSame('bar', $metric->title);
         self::assertSame([], $metric->options);
     }
@@ -22,8 +23,16 @@ class MetricTest extends TestCase
     public function testThatTheMetricMustHaveAnIdentifier(): void
     {
         $this->expectException(InvalidConfigurationFile::class);
-        $this->expectExceptionMessage('A metric configuration must have an non-empty name.');
+        $this->expectExceptionMessage('A metric configuration must have an non-empty identifier.');
 
-        new Metric('', null, []);
+        new Metric('', '', null, []);
+    }
+
+    public function testThatTheMetricMustHaveAnMetricDefined(): void
+    {
+        $this->expectException(InvalidConfigurationFile::class);
+        $this->expectExceptionMessage('A metric configuration must have an non-empty metric name.');
+
+        new Metric('foo', '', null, []);
     }
 }

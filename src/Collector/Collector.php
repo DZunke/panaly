@@ -30,7 +30,7 @@ readonly class Collector
             $group = new Group($title);
 
             foreach ($executingGroup->metrics as $executingMetric) {
-                $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->identifier);
+                $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->metric);
                 $metricResult  = $metricHandler->calculate($executingMetric->options);
 
                 $group->addMetric(new Metric(

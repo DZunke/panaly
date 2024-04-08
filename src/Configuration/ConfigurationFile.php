@@ -11,7 +11,9 @@ use Panaly\Configuration\ConfigurationFile\Reporting;
 use Panaly\Configuration\ConfigurationFile\Storage;
 
 use function array_key_exists;
+use function array_keys;
 use function array_map;
+use function array_values;
 
 readonly class ConfigurationFile
 {
@@ -40,15 +42,16 @@ readonly class ConfigurationFile
     }
 
     /**
-     * @param list<class-string> $pluginConfig
+     * @param array<class-string, array|null> $pluginConfig
      *
      * @return list<Plugin>
      */
     private static function buildPluginConfig(array $pluginConfig): array
     {
         return array_map(
-            static fn (string $class) => new Plugin($class),
-            $pluginConfig,
+            static fn (string $class, array|null $options) => new Plugin($class, $options ?? []),
+            array_keys($pluginConfig),
+            array_values($pluginConfig),
         );
     }
 
@@ -115,13 +118,14 @@ readonly class ConfigurationFile
             $options ??= [];
             unset($options['title']);
 
+            $metric = $identifier;
             if (array_key_exists('metric', $options)) {
                 // Take the metric not from the key but from the option
-                $identifier = $options['metric'];
+                $metric = $options['metric'];
                 unset($options['metric']);
             }
 
-            $metrics[] = new Metric($identifier, $title, $options);
+            $metrics[] = new Metric($identifier, $metric, $title, $options);
         }
 
         return $metrics;

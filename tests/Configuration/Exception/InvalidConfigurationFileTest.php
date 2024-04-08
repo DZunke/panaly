@@ -64,11 +64,18 @@ class InvalidConfigurationFileTest extends TestCase
         self::assertSame('A metric group configuration must have an non-empty name.', $exception->getMessage());
     }
 
-    public function testMetricMustNotHaveABlankName(): void
+    public function testMetricMustNotHaveABlankIdentifier(): void
     {
-        $exception = InvalidConfigurationFile::metricMustNotHaveABlankName();
+        $exception = InvalidConfigurationFile::metricMustNotHaveABlankIdentifier();
 
-        self::assertSame('A metric configuration must have an non-empty name.', $exception->getMessage());
+        self::assertSame('A metric configuration must have an non-empty identifier.', $exception->getMessage());
+    }
+
+    public function testMetricMustNotHaveABlankMetric(): void
+    {
+        $exception = InvalidConfigurationFile::metricMustNotHaveABlankMetric();
+
+        self::assertSame('A metric configuration must have an non-empty metric name.', $exception->getMessage());
     }
 
     public function testMetricGroupMustNotHaveABlankTitle(): void

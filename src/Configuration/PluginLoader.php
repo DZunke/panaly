@@ -23,25 +23,27 @@ class PluginLoader
                 throw PluginLoadingFailed::instantiationFailed($plugin->class, $e);
             }
 
-            $loadedPlugin->initialize($configurationFile, $runtimeConfiguration);
+            $loadedPlugin->initialize($configurationFile, $runtimeConfiguration, $plugin->options);
 
-            $loadedPluginMetrics = $loadedPlugin->getAvailableMetrics();
+            $loadedPluginMetrics = $loadedPlugin->getAvailableMetrics($plugin->options);
             array_walk(
                 $loadedPluginMetrics,
                 static fn (Plugin\Metric $metric) => $runtimeConfiguration->addMetric($metric),
             );
 
-            $loadedPluginStorages = $loadedPlugin->getAvailableStorages();
+            $loadedPluginStorages = $loadedPlugin->getAvailableStorages($plugin->options);
             array_walk(
                 $loadedPluginStorages,
                 static fn (Plugin\Storage $storage) => $runtimeConfiguration->addStorage($storage),
             );
 
-            $loadedPluginReports = $loadedPlugin->getAvailableReporting();
+            $loadedPluginReports = $loadedPlugin->getAvailableReporting($plugin->options);
             array_walk(
                 $loadedPluginReports,
                 static fn (Plugin\Reporting $reporting) => $runtimeConfiguration->addReporting($reporting),
             );
+
+            $runtimeConfiguration->addPlugin($loadedPlugin);
         }
     }
 }

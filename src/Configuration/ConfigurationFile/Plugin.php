@@ -12,9 +12,13 @@ use function is_a;
 
 readonly class Plugin
 {
-    /** @param class-string $class */
+    /**
+     * @param class-string         $class
+     * @param array<string, mixed> $options
+     */
     public function __construct(
         public string $class,
+        public array $options = [],
     ) {
         if (! class_exists($this->class)) {
             throw InvalidConfigurationFile::pluginClassNotExists($this->class);

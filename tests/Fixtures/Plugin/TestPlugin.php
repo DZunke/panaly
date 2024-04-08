@@ -23,7 +23,7 @@ use const JSON_THROW_ON_ERROR;
 class TestPlugin extends BasePlugin
 {
     /** @return list<Metric> */
-    public function getAvailableMetrics(): array
+    public function getAvailableMetrics(array $options): array
     {
         return [
             new class implements Metric {
@@ -46,7 +46,7 @@ class TestPlugin extends BasePlugin
     }
 
     /** @return list<Storage> */
-    public function getAvailableStorages(): array
+    public function getAvailableStorages(array $options): array
     {
         return [
             new class implements Storage {
@@ -75,7 +75,7 @@ class TestPlugin extends BasePlugin
     }
 
     /** @return list<Reporting> */
-    public function getAvailableReporting(): array
+    public function getAvailableReporting(array $options): array
     {
         return [
             new class implements Reporting {

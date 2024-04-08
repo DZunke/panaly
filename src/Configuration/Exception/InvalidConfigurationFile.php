@@ -55,8 +55,13 @@ final class InvalidConfigurationFile extends InvalidArgumentException
         return new self('A metric group configuration must have an non-empty title option.');
     }
 
-    public static function metricMustNotHaveABlankName(): InvalidConfigurationFile
+    public static function metricMustNotHaveABlankIdentifier(): InvalidConfigurationFile
     {
-        return new self('A metric configuration must have an non-empty name.');
+        return new self('A metric configuration must have an non-empty identifier.');
+    }
+
+    public static function metricMustNotHaveABlankMetric(): InvalidConfigurationFile
+    {
+        return new self('A metric configuration must have an non-empty metric name.');
     }
 }
