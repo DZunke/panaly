@@ -6,6 +6,7 @@ namespace Panaly\Collector;
 
 use Panaly\Configuration\ConfigurationFile;
 use Panaly\Configuration\RuntimeConfiguration;
+use Panaly\Event\BeforeMetricCalculate;
 use Panaly\Result\Group;
 use Panaly\Result\Metric;
 use Panaly\Result\Result;
@@ -31,7 +32,11 @@ readonly class Collector
 
             foreach ($executingGroup->metrics as $executingMetric) {
                 $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->metric);
-                $metricResult  = $metricHandler->calculate($executingMetric->options);
+
+                $event = new BeforeMetricCalculate($metricHandler, $executingMetric->options);
+                $this->runtimeConfiguration->getEventDispatcher()->dispatch($event);
+
+                $metricResult = $metricHandler->calculate($event->getOptions());
 
                 $group->addMetric(new Metric(
                     $executingMetric->title ?? $metricHandler->getDefaultTitle(),
