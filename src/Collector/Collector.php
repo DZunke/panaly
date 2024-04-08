@@ -33,7 +33,7 @@ class Collector
             foreach ($executingGroup->metrics as $executingMetric) {
                 $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->metric);
 
-                $event = new BeforeMetricCalculate($metricHandler, $executingMetric->options);
+                $event = new BeforeMetricCalculate($executingMetric, $executingMetric->options);
                 $this->runtimeConfiguration->getEventDispatcher()->dispatch($event);
 
                 $metricResult = $metricHandler->calculate($event->getOptions());

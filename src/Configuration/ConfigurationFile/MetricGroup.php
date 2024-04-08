@@ -6,13 +6,13 @@ namespace Panaly\Configuration\ConfigurationFile;
 
 use Panaly\Configuration\Exception\InvalidConfigurationFile;
 
-class MetricGroup
+readonly class MetricGroup
 {
     /** @param list<Metric> $metrics */
     public function __construct(
-        public readonly string $identifier,
-        public readonly string $title,
-        public readonly array $metrics,
+        public string $identifier,
+        public string $title,
+        public array $metrics,
     ) {
         if ($this->identifier === '') {
             throw InvalidConfigurationFile::metricGroupMustNotHaveABlankName();

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Panaly\Event;
 
-use Panaly\Plugin\Plugin\Metric;
+use Panaly\Configuration\ConfigurationFile\Metric;
 
 final class BeforeMetricCalculate
 {
     public function __construct(
-        public readonly Metric $plugin,
+        public readonly Metric $metricConfiguration,
         private array $options,
     ) {
     }
