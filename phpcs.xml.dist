@@ -5,7 +5,7 @@
     <arg name="colors"/>
     <arg name="cache" value=".phpcs-cache"/>
 
-    <file>bin</file>
+    <file>panaly</file>
     <file>src</file>
     <file>tests</file>
 

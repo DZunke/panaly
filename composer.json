@@ -28,7 +28,7 @@
         }
     },
     "bin": [
-        "bin/panaly"
+        "panaly"
     ],
     "require": {
         "php": "^8.2",
