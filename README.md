@@ -23,6 +23,7 @@ config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
   <summary>panaly.dist.yaml</summary>
 
   ```yaml
+# panaly.dist.yaml
 plugins: # Registered plugins that deliver single metrics that could be utilized for metric groups
     Namespace/Of/The/Project/FilesystemPlugin: ~ # registers a "filesystem_directory_count" and a "fielsystem_file_count" metric
     Namespace/Of/Another/Project/PHPStanBaselinePlugin: ~ # registers a simple "phpstan_baseline_total_count" metric

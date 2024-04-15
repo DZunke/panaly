@@ -1,6 +1,8 @@
 plugins:
   DZunke\PanalyFiles\FilesPlugin: ~
+  DZunke\PanalyJsonTimelineStorage\JsonTimelineStoragePlugin: ~
   DZunke\PanalySymfonyDump\SymfonyDumpPlugin: ~
+  DZunke\PanalyMarkdownReport\MarkdownPlugin: ~
 
 groups:
   filesystem:
@@ -24,5 +26,12 @@ groups:
         names:
           - "*.php"
 
+storage:
+  json-timeline-storage:
+    directory: "./tmp/panaly-timeline-storage"
+    dateFormat: "Y-m-d"
+
 reporting:
   symfony_dump: ~
+  markdown:
+    targetFile: "./tmp/my-markdown-report.md"

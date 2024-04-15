@@ -45,8 +45,6 @@ include $_composer_autoload_path ?? __DIR__ . '/vendor/autoload.php';
         // Give the possibility to change the runtime configuration before the metric collection starts
         $runtimeConfiguration->getEventDispatcher()->dispatch(new RuntimeLoaded($runtimeConfiguration));
 
-        // TODO: Add a validation thingy here ... so the full configuration file is validated against the now existing runtime
-
         // Execute the metric collection to get a result of all configured collection results
         $collectionResult = (new Collector($configurationFile, $runtimeConfiguration))->collect();
 
