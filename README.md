@@ -12,10 +12,34 @@ so that every plugin can form the way a projects analyzer tools bring their numb
 
 > :warning: Open TODO - Work in Progress Project
 
+```
+composer require --dev panaly/panaly
+```
+
+After the package was installed create a file `panaly.dist.yaml` and fill it with a configuration based on the plugins
+you need. Without any plugin there will be nothing done. As an example for a working configuration have a look to 
+the file in this repository.
+
 ## Usage
 
 In default the CLI Command will search for a config file `panaly.dist.yaml` which can be overwritten by giving the
 config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
+
+## Curated List of Plugins
+
+**Metric Plugins**
+* [Quality Tool Baselines](https://github.com/DZunke/panaly-baseline-plugin)
+* [Filesystem](https://github.com/DZunke/panaly-files)
+
+**Storage Plugins**
+* [JSON Timeline Storage](https://github.com/DZunke/panaly-json-timeline-storage)
+
+**Reporting Plugins**
+* [Markdown Report](https://github.com/DZunke/panaly-markdown-report)
+* [Symfony Dump Output](https://github.com/DZunke/panaly-symfony-dump)
+
+**Other Plugins**
+* [CODEOWNERS Paths](https://github.com/DZunke/panaly-codeowners)
 
 ## Example Configuration
 
