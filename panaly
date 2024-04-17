@@ -34,7 +34,10 @@ include $_composer_autoload_path ?? __DIR__ . '/vendor/autoload.php';
         $io->title('Project Analyzer');
 
         $runtimeConfiguration = new Configuration\RuntimeConfiguration();
-        $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile($input->getOption('config'));
+        $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile(
+            $runtimeConfiguration->getFileProvider(),
+            $input->getOption('config')
+        );
 
         // The configuration file is parsed, so allow to change the configuration when there is any need for it, before the plugins are loaded
         $runtimeConfiguration->getEventDispatcher()->dispatch($event = new ConfigurationLoaded($configurationFile));

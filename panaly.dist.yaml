@@ -25,6 +25,15 @@ groups:
           - tests
         names:
           - "*.php"
+      largest_php_files:
+        title: Largest PHP Files
+        metric: largest_files
+        amount: 5
+        paths:
+          - src
+          - tests
+        names:
+          - "*.php"
 
 storage:
   json-timeline-storage:

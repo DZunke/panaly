@@ -9,24 +9,34 @@ use Panaly\Configuration\ConfigurationFileLoader;
 use Panaly\Configuration\PluginLoader;
 use Panaly\Configuration\RuntimeConfiguration;
 use Panaly\Result\Result;
+use Panaly\Test\Double\MemoryFileProvider;
 use PHPUnit\Framework\TestCase;
 
 class CollectorTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        (new MemoryFileProvider())->reset();
+    }
+
     public function testCollectingWithoutAnyMetricsGiveEmptyResult(): void
     {
-        $collectionResult = $this->getResultFromConfigFile(
-            __DIR__ . '/../Fixtures/valid-config-without-metrics.yaml',
-        );
+        $fixtureFile        = __DIR__ . '/../Fixtures/valid-config-without-metrics.yaml';
+        $memoryFileProvider = new MemoryFileProvider();
+        $memoryFileProvider->addFixture($fixtureFile);
+
+        $collectionResult = $this->getResultFromConfigFile($memoryFileProvider, $fixtureFile);
 
         self::assertCount(0, $collectionResult->getGroups());
     }
 
     public function testCollectingMetricsWithResults(): void
     {
-        $collectionResult = $this->getResultFromConfigFile(
-            __DIR__ . '/../Fixtures/valid-config.yaml',
-        );
+        $fixtureFile        = __DIR__ . '/../Fixtures/valid-config.yaml';
+        $memoryFileProvider = new MemoryFileProvider();
+        $memoryFileProvider->addFixture($fixtureFile);
+
+        $collectionResult = $this->getResultFromConfigFile($memoryFileProvider, $fixtureFile);
 
         $groups = $collectionResult->getGroups();
         self::assertCount(1, $groups);
@@ -42,10 +52,10 @@ class CollectorTest extends TestCase
         self::assertSame(12, $metrics[1]->value->compute());
     }
 
-    private function getResultFromConfigFile(string $file): Result
+    private function getResultFromConfigFile(MemoryFileProvider $fileProvider, string $file): Result
     {
         $runtimeConfiguration = new RuntimeConfiguration();
-        $configurationFile    = (new ConfigurationFileLoader())->loadFromFile($file);
+        $configurationFile    = (new ConfigurationFileLoader())->loadFromFile($fileProvider, $file);
         (new PluginLoader())->load($configurationFile, $runtimeConfiguration);
 
         return (new Collector($configurationFile, $runtimeConfiguration))->collect();

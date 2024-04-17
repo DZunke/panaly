@@ -9,6 +9,7 @@ use Panaly\Plugin\Plugin;
 use Panaly\Plugin\Plugin\Metric;
 use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
+use Panaly\Provider\FileProvider;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -17,6 +18,7 @@ use function array_key_exists;
 class RuntimeConfiguration
 {
     private EventDispatcherInterface $eventDispatcher;
+    private FileProvider $fileProvider;
 
     /** @var list<Plugin> */
     private array $loadedPlugins = [];
@@ -30,11 +32,17 @@ class RuntimeConfiguration
     public function __construct()
     {
         $this->eventDispatcher = new EventDispatcher();
+        $this->fileProvider    = new FileProvider();
     }
 
     public function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->eventDispatcher;
+    }
+
+    public function getFileProvider(): FileProvider
+    {
+        return $this->fileProvider;
     }
 
     public function addPlugin(Plugin $plugin): void
