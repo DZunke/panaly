@@ -17,6 +17,7 @@ class PluginLoader
     {
         foreach ($configurationFile->plugins as $plugin) {
             try {
+                $runtimeConfiguration->getLogger()->debug('Plugin "' . $plugin->class . '" loading.');
                 $loadedPlugin = new $plugin->class();
                 assert($loadedPlugin instanceof Plugin); // Ensured by configuration validation
             } catch (Throwable $e) {
@@ -24,6 +25,7 @@ class PluginLoader
             }
 
             $loadedPlugin->initialize($configurationFile, $runtimeConfiguration, $plugin->options);
+            $runtimeConfiguration->getLogger()->debug('Plugin "' . $plugin->class . '" initialized.', $plugin->options);
 
             $loadedPluginMetrics = $loadedPlugin->getAvailableMetrics($plugin->options);
             array_walk(

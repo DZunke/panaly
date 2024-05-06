@@ -10,6 +10,8 @@ use Panaly\Plugin\Plugin\Metric;
 use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
 use Panaly\Provider\FileProvider;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -19,6 +21,7 @@ class RuntimeConfiguration
 {
     private EventDispatcherInterface $eventDispatcher;
     private FileProvider $fileProvider;
+    private LoggerInterface $logger;
 
     /** @var list<Plugin> */
     private array $loadedPlugins = [];
@@ -33,6 +36,17 @@ class RuntimeConfiguration
     {
         $this->eventDispatcher = new EventDispatcher();
         $this->fileProvider    = new FileProvider();
+        $this->logger          = new NullLogger();
+    }
+
+    public function setLogger(LoggerInterface $logger): void
+    {
+        $this->logger = $logger;
+    }
+
+    public function getLogger(): LoggerInterface
+    {
+        return $this->logger;
     }
 
     public function getEventDispatcher(): EventDispatcherInterface

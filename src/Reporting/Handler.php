@@ -18,7 +18,14 @@ class Handler
 
     public function handle(Result $result): void
     {
+        $this->runtimeConfiguration->getLogger()->debug('Handling reporting engines.');
+
         foreach ($this->configurationFile->reporting as $executeReport) {
+            $this->runtimeConfiguration->getLogger()->debug(
+                'Handling reporting "{report}".',
+                ['report' => $executeReport->identifier],
+            );
+
             $reportHandler = $this->runtimeConfiguration->getReporting($executeReport->identifier);
             $reportHandler->report($result, $executeReport->options);
         }

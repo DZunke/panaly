@@ -13,6 +13,7 @@ use Panaly\Storage\Handler as StorageHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -34,10 +35,13 @@ include $_composer_autoload_path ?? __DIR__ . '/vendor/autoload.php';
         $io->title('Project Analyzer');
 
         $runtimeConfiguration = new Configuration\RuntimeConfiguration();
+        $runtimeConfiguration->setLogger(new ConsoleLogger($io));
+
         $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile(
             $runtimeConfiguration->getFileProvider(),
             $input->getOption('config')
         );
+        $runtimeConfiguration->getLogger()->info('Config file "' . $input->getOption('config') .'" loaded.');
 
         // The configuration file is parsed, so allow to change the configuration when there is any need for it, before the plugins are loaded
         $runtimeConfiguration->getEventDispatcher()->dispatch($event = new ConfigurationLoaded($configurationFile));

@@ -23,14 +23,26 @@ class Collector
 
     public function collect(): Result
     {
+        $this->runtimeConfiguration->getLogger()->debug('Start collecting metrics.');
+
         $result = new Result();
         foreach ($this->configurationFile->metricGroups as $executingGroup) {
+            $this->runtimeConfiguration->getLogger()->debug(
+                'Collecting group "{group}".',
+                ['group' => $executingGroup->identifier],
+            );
+
             $title = $executingGroup->title;
             assert($title !== ''); // Ensured by validation of the object
 
             $group = new Group($title);
 
             foreach ($executingGroup->metrics as $executingMetric) {
+                $this->runtimeConfiguration->getLogger()->debug(
+                    'Calculate "{metric}" in group "{group}".',
+                    ['group' => $executingGroup->identifier, 'metric' => $executingMetric->identifier],
+                );
+
                 $metricHandler = $this->runtimeConfiguration->getMetric($executingMetric->metric);
 
                 $event = new BeforeMetricCalculate($executingMetric, $executingMetric->options);
@@ -46,6 +58,8 @@ class Collector
 
             $result->addGroup($group);
         }
+
+        $this->runtimeConfiguration->getLogger()->debug('Finished collecting metrics.');
 
         return $result;
     }

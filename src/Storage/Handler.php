@@ -18,7 +18,14 @@ class Handler
 
     public function handle(Result $result): void
     {
+        $this->runtimeConfiguration->getLogger()->debug('Handling storage engines.');
+
         foreach ($this->configurationFile->storage as $executeStorage) {
+            $this->runtimeConfiguration->getLogger()->debug(
+                'Handling storage "{storage}".',
+                ['storage' => $executeStorage->identifier],
+            );
+
             $storageHandler = $this->runtimeConfiguration->getStorage($executeStorage->identifier);
             $storageHandler->store($result, $executeStorage->options);
         }
