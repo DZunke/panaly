@@ -9,7 +9,7 @@ use Panaly\Plugin\BasePlugin;
 use Panaly\Plugin\Plugin\Metric;
 use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
-use Panaly\Result\Metric\Integer;
+use Panaly\Result\Metric\IntegerValue;
 use Panaly\Result\Metric\Value;
 use Panaly\Result\Result;
 use Symfony\Component\VarDumper\VarDumper;
@@ -39,7 +39,7 @@ class TestPlugin extends BasePlugin
 
                 public function calculate(array $options): Value
                 {
-                    return new Integer(12);
+                    return new IntegerValue(12);
                 }
             },
         ];
