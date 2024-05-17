@@ -35,7 +35,7 @@ class Collector
             $title = $executingGroup->title;
             assert($title !== ''); // Ensured by validation of the object
 
-            $group = new Group($title);
+            $group = new Group($executingGroup->identifier, $title);
 
             foreach ($executingGroup->metrics as $executingMetric) {
                 $this->runtimeConfiguration->getLogger()->debug(
@@ -51,6 +51,7 @@ class Collector
                 $metricResult = $metricHandler->calculate($event->getOptions());
 
                 $group->addMetric(new Metric(
+                    $executingMetric->identifier,
                     $executingMetric->title ?? $metricHandler->getDefaultTitle(),
                     $metricResult,
                 ));

@@ -79,13 +79,13 @@ class ConfigurationFileTest extends TestCase
         self::assertCount(3, $configurationFile->metricGroups[0]->metrics);
 
         // The "baz" metric
-        self::assertSame('foo.baz', $configurationFile->metricGroups[0]->metrics[0]->identifier);
+        self::assertSame('baz', $configurationFile->metricGroups[0]->metrics[0]->identifier);
         self::assertSame('baz', $configurationFile->metricGroups[0]->metrics[0]->metric);
         self::assertSame('foo_baz', $configurationFile->metricGroups[0]->metrics[0]->title);
         self::assertSame(['foo' => 'bar'], $configurationFile->metricGroups[0]->metrics[0]->options);
 
         // The "quo" metric
-        self::assertSame('foo.quo', $configurationFile->metricGroups[0]->metrics[1]->identifier);
+        self::assertSame('quo', $configurationFile->metricGroups[0]->metrics[1]->identifier);
         self::assertSame('quo', $configurationFile->metricGroups[0]->metrics[1]->metric);
         self::assertNull($configurationFile->metricGroups[0]->metrics[1]->title);
         self::assertSame(['foo' => 'baz'], $configurationFile->metricGroups[0]->metrics[1]->options);

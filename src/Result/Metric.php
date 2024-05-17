@@ -9,6 +9,7 @@ use Panaly\Result\Metric\Value;
 class Metric
 {
     public function __construct(
+        public readonly string $identifier,
         public readonly string $title,
         public readonly Value $value,
     ) {

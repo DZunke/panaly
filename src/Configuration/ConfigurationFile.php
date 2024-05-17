@@ -97,7 +97,7 @@ class ConfigurationFile
             $metricGroup[] = new MetricGroup(
                 $groupIdentifier,
                 $options['title'] ?? '',
-                self::convertToMetricConfig($groupIdentifier, $options['metrics'] ?? []),
+                self::convertToMetricConfig($options['metrics'] ?? []),
             );
         }
 
@@ -109,7 +109,7 @@ class ConfigurationFile
      *
      * @return list<Metric>
      */
-    private static function convertToMetricConfig(string $groupIdentifier, array $metricConfig): array
+    private static function convertToMetricConfig(array $metricConfig): array
     {
         $metrics = [];
         foreach ($metricConfig as $identifier => $options) {
@@ -123,9 +123,6 @@ class ConfigurationFile
                 // Take the metric not from the key but from the option
                 $metric = $options['metric'];
                 unset($options['metric']);
-            } else {
-                // Because the name of the metric was utilized as key it is not unique, so combine it with the group
-                $identifier = $groupIdentifier . '.' . $identifier;
             }
 
             $metrics[] = new Metric($identifier, $metric, $title, $options);

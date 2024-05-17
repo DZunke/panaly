@@ -11,9 +11,15 @@ class Group
      * @param list<Metric>     $metrics
      */
     public function __construct(
+        private readonly string $identifier,
         private readonly string $title,
         private array $metrics = [],
     ) {
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
     }
 
     public function getTitle(): string
@@ -32,12 +38,12 @@ class Group
         $this->metrics[] = $metric;
     }
 
-    /** @return array{title: non-empty-string, metrics: list<array{title: string, value: mixed}>} */
+    /** @return array{title: non-empty-string, metrics: array<string, array{title: string, value: mixed}>} */
     public function toArray(): array
     {
         $metricsAsArray = [];
         foreach ($this->metrics as $metric) {
-            $metricsAsArray[] = [
+            $metricsAsArray[$metric->identifier] = [
                 'title' => $metric->title,
                 'value' => $metric->value->compute(),
             ];

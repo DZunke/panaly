@@ -37,10 +37,13 @@ class Result
     /**
      * @return array{
      *     createdAt: non-falsy-string,
-     *     groups: list<array{
+     *     groups: array<
+     *      string,
+     *      array{
      *           title: string,
-     *           metrics: list<array{title: string, value: mixed}>
-     *     }>
+     *           metrics: array<string, array{title: string, value: mixed}>
+     *      }
+     *     >
      * }
      */
     public function toArray(): array
@@ -51,7 +54,7 @@ class Result
         ];
 
         foreach ($this->groups as $group) {
-            $asArray['groups'][] = $group->toArray();
+            $asArray['groups'][$group->getIdentifier()] = $group->toArray();
         }
 
         return $asArray;
