@@ -16,12 +16,14 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use function array_key_exists;
+use function getcwd;
 
 class RuntimeConfiguration
 {
     private EventDispatcherInterface $eventDispatcher;
     private FileProvider $fileProvider;
     private LoggerInterface $logger;
+    private string $workingDirectory;
 
     /** @var list<Plugin> */
     private array $loadedPlugins = [];
@@ -34,9 +36,10 @@ class RuntimeConfiguration
 
     public function __construct()
     {
-        $this->eventDispatcher = new EventDispatcher();
-        $this->fileProvider    = new FileProvider();
-        $this->logger          = new NullLogger();
+        $this->eventDispatcher  = new EventDispatcher();
+        $this->fileProvider     = new FileProvider();
+        $this->logger           = new NullLogger();
+        $this->workingDirectory = (string) getcwd();
     }
 
     public function setLogger(LoggerInterface $logger): void
@@ -57,6 +60,11 @@ class RuntimeConfiguration
     public function getFileProvider(): FileProvider
     {
         return $this->fileProvider;
+    }
+
+    public function getWorkingDirectory(): string
+    {
+        return $this->workingDirectory;
     }
 
     public function addPlugin(Plugin $plugin): void

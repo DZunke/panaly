@@ -36,6 +36,10 @@ include $_composer_autoload_path ?? __DIR__ . '/vendor/autoload.php';
 
         $runtimeConfiguration = new Configuration\RuntimeConfiguration();
         $runtimeConfiguration->setLogger(new ConsoleLogger($io));
+        $runtimeConfiguration->getLogger()->debug(
+            'The working directory registered is "{workingDirectory}"',
+            ['workingDirectory' => $runtimeConfiguration->getWorkingDirectory()],
+        );
 
         $configurationFile    = (new Configuration\ConfigurationFileLoader())->loadFromFile(
             $runtimeConfiguration->getFileProvider(),

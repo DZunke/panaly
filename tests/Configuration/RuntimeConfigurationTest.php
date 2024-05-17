@@ -11,8 +11,20 @@ use Panaly\Plugin\Plugin\Reporting;
 use Panaly\Plugin\Plugin\Storage;
 use PHPUnit\Framework\TestCase;
 
+use function getcwd;
+
 class RuntimeConfigurationTest extends TestCase
 {
+    public function testThatTheWorkingDirectoryIsCorrectlyInitialized(): void
+    {
+        $configuration = new RuntimeConfiguration();
+
+        self::assertSame(
+            getcwd(),
+            $configuration->getWorkingDirectory(),
+        );
+    }
+
     public function testThatAddingMetricIsWorking(): void
     {
         $metric = self::createStub(Metric::class);
