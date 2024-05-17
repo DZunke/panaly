@@ -12,18 +12,31 @@ use Panaly\Plugin\Plugin\Storage;
 
 interface Plugin
 {
+    /** @param array<string, mixed> $options */
     public function initialize(
         ConfigurationFile $configurationFile,
         RuntimeConfiguration $runtimeConfiguration,
         array $options,
     ): void;
 
-    /** @return list<Metric> */
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return list<Metric>
+     */
     public function getAvailableMetrics(array $options): array;
 
-    /** @return list<Storage> */
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return list<Storage>
+     */
     public function getAvailableStorages(array $options): array;
 
-    /** @return list<Reporting> */
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return list<Reporting>
+     */
     public function getAvailableReporting(array $options): array;
 }

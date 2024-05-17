@@ -8,6 +8,7 @@ use Panaly\Configuration\Exception\InvalidConfigurationFile;
 
 class Metric
 {
+    /** @param array<string, mixed> $options */
     public function __construct(
         public readonly string $identifier,
         public readonly string $metric,

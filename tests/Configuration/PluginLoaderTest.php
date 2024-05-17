@@ -61,7 +61,13 @@ class PluginLoaderTest extends TestCase
     public function testThatOptionsAreHandOverToThePlugin(): void
     {
         $plugin = new class () extends BasePlugin {
-            /** @var array<string, array|null> */
+            /** @var array{
+             *     initialize: array<string, mixed>|null,
+             *     metrics: array<string, mixed>|null,
+             *     storages: array<string, mixed>|null,
+             *     reporting: array<string, mixed>|null
+             * }
+             */
             public array $expectedCalls = [
                 'initialize' => null,
                 'metrics' => null,

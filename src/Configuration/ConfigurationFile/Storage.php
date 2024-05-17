@@ -8,6 +8,7 @@ use Panaly\Configuration\Exception\InvalidConfigurationFile;
 
 class Storage
 {
+    /** @param array<string, mixed> $options */
     public function __construct(
         public readonly string $identifier,
         public readonly array $options,

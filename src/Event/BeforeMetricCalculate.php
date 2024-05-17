@@ -8,6 +8,7 @@ use Panaly\Configuration\ConfigurationFile\Metric;
 
 final class BeforeMetricCalculate
 {
+    /** @param array<string, mixed> $options */
     public function __construct(
         public readonly Metric $metricConfiguration,
         private array $options,

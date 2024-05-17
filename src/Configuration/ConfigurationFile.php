@@ -15,6 +15,13 @@ use function array_keys;
 use function array_map;
 use function array_values;
 
+/**
+ * @phpstan-type PluginConfig array<class-string, array<string, mixed>|null>
+ * @phpstan-type StorageConfig array<string, array<string, mixed>|null>
+ * @phpstan-type ReportingConfig array<string, array<string, mixed>|null>
+ * @phpstan-type MetricGroupConfig array<string, array<string, mixed>|null>
+ * @phpstan-type MetricConfig array<string, array<string, mixed>|null>
+ */
 class ConfigurationFile
 {
     /**
@@ -31,6 +38,7 @@ class ConfigurationFile
     ) {
     }
 
+    /** @param array{plugins?: PluginConfig, groups?: MetricGroupConfig, storage?: StorageConfig, reporting?: ReportingConfig} $config */
     public static function fromArray(array $config): ConfigurationFile
     {
         return new self(
@@ -42,7 +50,7 @@ class ConfigurationFile
     }
 
     /**
-     * @param array<class-string, array|null> $pluginConfig
+     * @param PluginConfig $pluginConfig
      *
      * @return list<Plugin>
      */
@@ -56,7 +64,7 @@ class ConfigurationFile
     }
 
     /**
-     * @param array<string, array|null> $reportingConfig
+     * @param ReportingConfig $reportingConfig
      *
      * @return list<Reporting>
      */
@@ -71,7 +79,7 @@ class ConfigurationFile
     }
 
     /**
-     * @param array<string, array|null> $storageConfig
+     * @param StorageConfig $storageConfig
      *
      * @return list<Storage>
      */
@@ -86,7 +94,7 @@ class ConfigurationFile
     }
 
     /**
-     * @param array<string, array|null> $metricGroupConfig
+     * @param MetricGroupConfig $metricGroupConfig
      *
      * @return list<MetricGroup>
      */
@@ -105,7 +113,7 @@ class ConfigurationFile
     }
 
     /**
-     * @param array<string, array|null> $metricConfig
+     * @param MetricConfig $metricConfig
      *
      * @return list<Metric>
      */
