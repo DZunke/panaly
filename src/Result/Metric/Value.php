@@ -6,5 +6,7 @@ namespace Panaly\Result\Metric;
 
 interface Value
 {
-    public function compute(): mixed;
+    public function getRaw(): mixed;
+
+    public function format(): mixed;
 }

@@ -1,0 +1,14 @@
+plugins:
+  Panaly\Test\Fixtures\Plugin\TestPlugin: ~
+
+groups:
+  empty_group:
+    title: "Group with no metrics"
+    metrics: []
+
+storage:
+  json:
+    path: var/metric_storage
+
+reporting:
+  html_report: ~

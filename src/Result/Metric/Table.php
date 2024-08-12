@@ -19,7 +19,13 @@ final readonly class Table implements Value
     }
 
     /** @return list<list<mixed>> */
-    public function compute(): array
+    public function getRaw(): array
+    {
+        return $this->format();
+    }
+
+    /** @return list<list<mixed>> */
+    public function format(): array
     {
         return array_merge([$this->columns], $this->rows);
     }

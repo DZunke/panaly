@@ -1,0 +1,19 @@
+plugins:
+  Panaly\Test\Fixtures\Plugin\TestPlugin: ~
+
+groups:
+  foo:
+    title: "Group 1"
+    metrics:
+      a_static_integer: ~
+  bar:
+    title: "Group 2"
+    metrics:
+      a_static_integer: ~
+
+storage:
+  json:
+    path: var/metric_storage
+
+reporting:
+  html_report: ~
