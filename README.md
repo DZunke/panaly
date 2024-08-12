@@ -1,44 +1,61 @@
 # Panaly - Project Analyzer
 
-This project targets to deliver an extendable tool to analyze a projects sourcecode for some metrics. Have a code
-coverage report? Some baselines for static analyzer that you want to keep in mind? Just file system metrics? Get
-them all together based on your custom configuration and get a reporting of your mind for it.
+[![Build Status](https://img.shields.io/github/actions/workflow/status/DZunke/panaly/ci.yml)](https://github.com/DZunke/panaly/actions)
+[![License](https://img.shields.io/github/license/DZunke/panaly)](https://mit-license.org/)
 
-The plugin system ensures that it is possible to customize every step from the configuration to the collection of
-the metrics and over to storage and reporting. Later on even more access with active event listening will be enabled
-so that every plugin can form the way a projects analyzer tools bring their numbers together.
+This project aims to deliver an extendable tool to analyze a project's source code for various metrics. Whether you have
+a code coverage report, baselines for static analyzers, or file system metrics, Panaly can aggregate them based on your
+custom configuration and provide comprehensive reporting.
+
+The plugin system ensures customization at every step, from configuration to metric collection, storage, and reporting.
+Future updates will enable active event listening, allowing plugins to further customize the analysis process.
+
+## Features
+
+- Extensible plugin system
+- Customizable metric collection
+- Comprehensive reporting
 
 ## Setup
 
-> :warning: Open TODO - Work in Progress Project
+> :warning: **Work in Progress Project**
 
-```
+Install the package using Composer:
+
+```bash
 composer require --dev panaly/panaly
 ```
 
-After the package was installed create a file `panaly.dist.yaml` and fill it with a configuration based on the plugins
-you need. Without any plugin there will be nothing done. As an example for a working configuration have a look to 
-the file in this repository.
+Create a `panaly.dist.yaml` file and configure it based on the plugins you need. Without any plugins, no actions will be
+performed. Refer to the example configuration in this repository for guidance.
 
 ## Usage
 
-In default the CLI Command will search for a config file `panaly.dist.yaml` which can be overwritten by giving the
-config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
+By default, the CLI command searches for a `panaly.dist.yaml` configuration file. You can specify a different
+configuration file using the `-c` option:
+
+```bash
+vendor/bin/panaly -c my-own-config.yaml
+```
 
 ## Curated List of Plugins
 
 **Metric Plugins**
+
 * [Quality Tool Baselines](https://github.com/DZunke/panaly-baseline-plugin)
 * [Filesystem](https://github.com/DZunke/panaly-files)
 
 **Storage Plugins**
+
 * [JSON Timeline Storage](https://github.com/DZunke/panaly-json-timeline-storage)
 
 **Reporting Plugins**
+
 * [Markdown Report](https://github.com/DZunke/panaly-markdown-report)
 * [Symfony Dump Output](https://github.com/DZunke/panaly-symfony-dump)
 
 **Other Plugins**
+
 * [CODEOWNERS Paths](https://github.com/DZunke/panaly-codeowners)
 
 ## Example Configuration
@@ -49,9 +66,9 @@ config file with the CLI Command like `vendor/bin/panaly -c my-own-config.yaml`.
   ```yaml
 # panaly.dist.yaml
 plugins: # Registered plugins that deliver single metrics that could be utilized for metric groups
-    Namespace/Of/The/Project/FilesystemPlugin: ~ # registers a "filesystem_directory_count" and a "fielsystem_file_count" metric
+    Namespace/Of/The/Project/FilesystemPlugin: ~ # registers a "filesystem_directory_count" and a "filesystem_file_count" metric
     Namespace/Of/Another/Project/PHPStanBaselinePlugin: ~ # registers a simple "phpstan_baseline_total_count" metric
-    I/Have/A/Storage/Engine/LocalJsonStoragePlugin: ~ # registers a "local_json" storage and also a "metric_history_timeframe" metric that shows from / to string of alltime metric reading
+    I/Have/A/Storage/Engine/LocalJsonStoragePlugin: ~ # registers a "local_json" storage and also a "metric_history_timeframe" metric that shows from / to string of all-time metric reading
     My/Own/Plugin/HtmlReportPlugin: ~ # registers the "my_own_html_reporting" reporting that takes the result collection of the metrics and does something with it
 
 groups:
@@ -65,19 +82,19 @@ groups:
         title: "Filesystem Metrics"
         metrics:
             filesystem_directory_count: ~
-            fielsystem_file_count:
+            filesystem_file_count:
                 title: "Total project files"
                 paths:
                     - src
                     - tests
             i_am_a_custom_identifier:
-                metric: fielsystem_file_count # This overwrites the key and is the metric to be utilized
+                metric: filesystem_file_count # This overwrites the key and is the metric to be utilized
                 title: "Just test files"
                 paths:
                     - src
                     - tests
     group3:
-        title: Static Analysis Metrics"
+        title: "Static Analysis Metrics"
         metrics:
             phpstan_baseline_total_count:
                 title: "PHPStan Debts"
@@ -89,49 +106,48 @@ storage:
 
 reporting:
     my_own_html_reporting: ~
-```
+  ```
 
 </details>
 
 ## Plugins
 
-As Panaly is building on a wide plugin system and is not delivering metric collecting, storaging and reporting features
-by itself everything needs to be done by a plugin. Each plugin can be specialized to a single task or deliver a full
-feature set from the metric collection over storage handling to reporting generation.
+Panaly relies on a wide plugin system and does not provide metric collection, storage, or reporting features by itself.
+Each plugin can specialize in a single task or deliver a full feature set from metric collection to storage handling and
+report generation.
 
-In a result the plugins are the most basic thing to configure for a Panaly run. Every plugin has a base class that is
-configuring how the plugin want to be utilized by Panaly and which features it delivers.
+Plugins are the most essential part of configuring a Panaly run. Each plugin has a base class that defines how it
+interacts with Panaly and the features it provides.
 
-A Plugin can extend the class `Panaly\Plugin\BasePlugin` to not have to implement all methods for itself as the methods
-are independently called from each other and nothing will happen when they are empty.
+A plugin can extend the `Panaly\Plugin\BasePlugin` class to avoid implementing all methods individually, as the methods
+are called independently and do nothing if left empty.
 
-The following methods are available.
+The following methods are available:
 
-| Method                  | Description                                                                                                                                                                                   |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `initialize`            | Mainly usage idea currently is to register event listeners to the events that are triggered during the runtime of a Panaly run.                                                               |
-| `getAvailableMetrics`   | Return a list of `Panaly\Plugin\Plugin\Metric` implementing classes to be used as metric collectors.                                                                                          |
-| `getAvailableStorages`  | Return a list of `Panaly\Plugin\Plugin\Storage` implementing classes that will take the metric collection result and handle storage tasks.                                                    |
-| `getAvailableReporting` | Return a list of `Panaly\Plugin\Plugin\Reporting` implementing classes that will take the metric collection result and generate some kind of reporting that can then be utilized by the user. |
+| Method                  | Description                                                                                                                        |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `initialize`            | Mainly used to register event listeners for events triggered during a Panaly run.                                                  |
+| `getAvailableMetrics`   | Returns a list of `Panaly\Plugin\Plugin\Metric` implementing classes to be used as metric collectors.                              |
+| `getAvailableStorages`  | Returns a list of `Panaly\Plugin\Plugin\Storage` implementing classes that handle storage tasks for the metric collection results. |
+| `getAvailableReporting` | Returns a list of `Panaly\Plugin\Plugin\Reporting` implementing classes that generate reports from the metric collection results.  |
 
 ## Events
 
-The event section is work in progress as there is currently no real way to register an event listener but that will
-become available later so that plugins are also enabled to hook into the events instead of delivering metrics,
-reporting or storages to the process.
+The event system is a work in progress. Future updates will allow plugins to register event listeners, enabling them to
+hook into events beyond delivering metrics, reporting, or storage.
 
-| Event                                                        | Description                                                                                                                                                                                                                                                                                              |
-|--------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Panaly\Configuration\ConfigurationFile\BeforeMetricCalculate | Before the Collector executes a metric collection method it will dispatch this even which gives the possibility to change the metric options directly before the metric is executed.                                                                                                                     |
-| Panaly\Configuration\ConfigurationFile\ConfigurationLoaded   | The event is dispatched directly after the `ConfigurationFile` was loaded. It allows to overwrite the full configuration by delivering a new instance that will then be taken for the process.                                                                                                           |
-| Panaly\Configuration\ConfigurationFile\RuntimeLoaded         | After the configuration was fully loaded and converted to the `RuntimeConfiguration` this event is triggered, it is the last possibility to change the metric running process.                                                                                                                           |
-| Panaly\Configuration\ConfigurationFile\MetricResultCreated   | When the collection, or execution, of configured metric groups is finished the event is triggered with all information and the result can be modified before the storage and reporting runs. The full environment is given her with the `ConfigurationFile`, the `RuntimeConfiguration` and the `Result` |
+| Event                                                        | Description                                                                                                                                                                                                                                                       |
+|--------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Panaly\Configuration\ConfigurationFile\BeforeMetricCalculate | Dispatched before a metric collection method is executed, allowing modification of metric options directly before execution.                                                                                                                                      |
+| Panaly\Configuration\ConfigurationFile\ConfigurationLoaded   | Dispatched after the `ConfigurationFile` is loaded, allowing the full configuration to be overwritten by delivering a new instance.                                                                                                                               |
+| Panaly\Configuration\ConfigurationFile\RuntimeLoaded         | Dispatched after the configuration is fully loaded and converted to the `RuntimeConfiguration`, providing the last opportunity to change the metric running process.                                                                                              |
+| Panaly\Configuration\ConfigurationFile\MetricResultCreated   | Dispatched when the collection or execution of configured metric groups is finished, allowing modification of the result before storage and reporting. The full environment is provided, including the `ConfigurationFile`, `RuntimeConfiguration`, and `Result`. |
 
 ## Thanks and License
 
-**Panaly - Project Analyzer** © 2024+, Denis Zunke. Released utilizing the [MIT License](https://mit-license.org/).
+**Panaly - Project Analyzer** © 2024+, Denis Zunke. Released under the [MIT License](https://mit-license.org/).
 
-Inspired By [PHPMetrics](https://phpmetrics.github.io/website/) - Thanks for your Tool!
+Inspired by [PHPMetrics](https://phpmetrics.github.io/website/) - Thanks for your tool!
 
 > GitHub [@dzunke](https://github.com/DZunke) &nbsp;&middot;&nbsp;
 > Twitter [@DZunke](https://twitter.com/DZunke)
