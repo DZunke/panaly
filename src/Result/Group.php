@@ -45,7 +45,7 @@ class Group
         foreach ($this->metrics as $metric) {
             $metricsAsArray[$metric->identifier] = [
                 'title' => $metric->title,
-                'value' => $metric->value->format(),
+                'value' => $metric->value->getRaw(),
             ];
         }
 

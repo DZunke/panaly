@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Panaly\Result\Metric;
 
+use function number_format;
+
 final readonly class IntegerValue implements Value
 {
     public function __construct(public int $value)
@@ -12,11 +14,11 @@ final readonly class IntegerValue implements Value
 
     public function getRaw(): int
     {
-        return $this->format();
+        return $this->value;
     }
 
-    public function format(): int
+    public function format(): string
     {
-        return $this->value;
+        return number_format(num: $this->value);
     }
 }

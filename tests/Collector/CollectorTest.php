@@ -47,10 +47,12 @@ class CollectorTest extends TestCase
         self::assertCount(2, $metrics);
 
         self::assertSame('I am a default title', $metrics[0]->title);
-        self::assertSame(12, $metrics[0]->value->format());
+        self::assertSame(12, $metrics[0]->value->getRaw());
+        self::assertSame('12', $metrics[0]->value->format());
 
         self::assertSame('I am a default title', $metrics[1]->title);
-        self::assertSame(12, $metrics[1]->value->format());
+        self::assertSame(12, $metrics[1]->value->getRaw());
+        self::assertSame('12', $metrics[1]->value->format());
     }
 
     public function testInvalidConfigurationFile(): void
