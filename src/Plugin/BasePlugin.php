@@ -15,22 +15,4 @@ abstract class BasePlugin implements Plugin
         array $options,
     ): void {
     }
-
-    /** @inheritDoc */
-    public function getAvailableMetrics(array $options): array
-    {
-        return [];
-    }
-
-    /** @inheritDoc */
-    public function getAvailableStorages(array $options): array
-    {
-        return [];
-    }
-
-    /** @inheritDoc */
-    public function getAvailableReporting(array $options): array
-    {
-        return [];
-    }
 }

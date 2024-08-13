@@ -116,20 +116,41 @@ Panaly relies on a wide plugin system and does not provide metric collection, st
 Each plugin can specialize in a single task or deliver a full feature set from metric collection to storage handling and
 report generation.
 
-Plugins are the most essential part of configuring a Panaly run. Each plugin has a base class that defines how it
-interacts with Panaly and the features it provides.
+Plugins are essential for configuring a Panaly run. Each plugin has a base class that defines how it interacts with 
+Panaly and the features it provides. A plugin must implement the `Panaly\Plugin\Plugin interface`, which defines 
+an `initialize` method.  
 
-A plugin can extend the `Panaly\Plugin\BasePlugin` class to avoid implementing all methods individually, as the methods
-are called independently and do nothing if left empty.
+The plugin will receive the full application configuration, the specific configuration associated 
+with it, and the runtime configuration where metrics, storage, and reports can be added. It also has access to the 
+event dispatcher to register listeners/subscribers for customizations.  
 
-The following methods are available:
+A plugin example:
 
-| Method                  | Description                                                                                                                        |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `initialize`            | Mainly used to register event listeners for events triggered during a Panaly run.                                                  |
-| `getAvailableMetrics`   | Returns a list of `Panaly\Plugin\Plugin\Metric` implementing classes to be used as metric collectors.                              |
-| `getAvailableStorages`  | Returns a list of `Panaly\Plugin\Plugin\Storage` implementing classes that handle storage tasks for the metric collection results. |
-| `getAvailableReporting` | Returns a list of `Panaly\Plugin\Plugin\Reporting` implementing classes that generate reports from the metric collection results.  |
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace MyNamespace;
+
+use Panaly\Configuration\ConfigurationFile;
+use Panaly\Configuration\RuntimeConfiguration;
+use Panaly\Plugin\Plugin;
+
+final class BaselinePlugin implements Plugin
+{
+    public function initialize(
+        ConfigurationFile $configurationFile,
+        RuntimeConfiguration $runtimeConfiguration,
+        array $options,
+    ): void {
+        $runtimeConfiguration->addMetric(new MyMetric());
+        $runtimeConfiguration->addReporting(new MyReport());
+        $runtimeConfiguration->addStorage(new MyStorage());
+    }
+}
+```
+
 
 ## Events
 

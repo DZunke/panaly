@@ -9,11 +9,10 @@ use Panaly\Configuration\Exception\PluginLoadingFailed;
 use Panaly\Configuration\PluginLoader;
 use Panaly\Configuration\RuntimeConfiguration;
 use Panaly\Plugin\BasePlugin;
+use Panaly\Plugin\Plugin;
 use Panaly\Test\Fixtures\Plugin\TestPlugin;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-
-use function assert;
 
 class PluginLoaderTest extends TestCase
 {
@@ -60,20 +59,12 @@ class PluginLoaderTest extends TestCase
 
     public function testThatOptionsAreHandOverToThePlugin(): void
     {
-        $plugin = new class () extends BasePlugin {
+        $plugin = new class () implements Plugin {
             /** @var array{
-             *     initialize: array<string, mixed>|null,
-             *     metrics: array<string, mixed>|null,
-             *     storages: array<string, mixed>|null,
-             *     reporting: array<string, mixed>|null
+             *     initialize: array<string, mixed>|null
              * }
              */
-            public array $expectedCalls = [
-                'initialize' => null,
-                'metrics' => null,
-                'storages' => null,
-                'reporting' => null,
-            ];
+            public array $expectedCalls = ['initialize' => null];
 
             public function initialize(
                 ConfigurationFile $configurationFile,
@@ -81,30 +72,6 @@ class PluginLoaderTest extends TestCase
                 array $options,
             ): void {
                 $this->expectedCalls['initialize'] = $options;
-            }
-
-            /** @inheritDoc */
-            public function getAvailableMetrics(array $options): array
-            {
-                $this->expectedCalls['metrics'] = $options;
-
-                return [];
-            }
-
-            /** @inheritDoc */
-            public function getAvailableStorages(array $options): array
-            {
-                $this->expectedCalls['storages'] = $options;
-
-                return [];
-            }
-
-            /** @inheritDoc */
-            public function getAvailableReporting(array $options): array
-            {
-                $this->expectedCalls['reporting'] = $options;
-
-                return [];
             }
         };
 
@@ -116,23 +83,12 @@ class PluginLoaderTest extends TestCase
             [],
         );
 
-        $runtimeConfiguration = new RuntimeConfiguration();
+        $runtimeConfiguration = $this->createMock(RuntimeConfiguration::class);
         $loader               = new PluginLoader();
         $loader->load($configurationFile, $runtimeConfiguration);
 
-        $loadedPlugin = $runtimeConfiguration->getPlugins()[0];
-        assert($loadedPlugin instanceof $plugin);
-
-        self::assertIsArray($loadedPlugin->expectedCalls['initialize']);
-        self::assertSame($pluginOptions, $loadedPlugin->expectedCalls['initialize']);
-
-        self::assertIsArray($loadedPlugin->expectedCalls['metrics']);
-        self::assertSame($pluginOptions, $loadedPlugin->expectedCalls['metrics']);
-
-        self::assertIsArray($loadedPlugin->expectedCalls['storages']);
-        self::assertSame($pluginOptions, $loadedPlugin->expectedCalls['storages']);
-
-        self::assertIsArray($loadedPlugin->expectedCalls['reporting']);
-        self::assertSame($pluginOptions, $loadedPlugin->expectedCalls['reporting']);
+        $runtimeConfiguration->expects($this->never())->method('addMetric');
+        $runtimeConfiguration->expects($this->never())->method('addReporting');
+        $runtimeConfiguration->expects($this->never())->method('addStorage');
     }
 }
